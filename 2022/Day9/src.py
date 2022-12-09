@@ -66,10 +66,3 @@ for file_name in ["input.txt", "sample1.txt", "sample2.txt"]:
     print("Part 1:", parts[0])
     print("Part 2:", parts[1])
     print("=================")
-
-
-    
-    
-
-
-
