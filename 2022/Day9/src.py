@@ -25,19 +25,8 @@ def tail_move(head, tail):
     if head.touches(tail):
         return 0, 0
     
-    if head.x > tail.x:
-        dx = 1
-    elif head.x < tail.x:
-        dx = -1
-    else:
-        dx = 0
-    
-    if head.y > tail.y:
-        dy = 1
-    elif head.y < tail.y:
-        dy = -1
-    else:
-        dy = 0
+    dx = (head.x - tail.x) // abs(head.x - tail.x) if head.x != tail.x else 0
+    dy = (head.y - tail.y) // abs(head.y - tail.y) if head.y != tail.y else 0
     
     return dx, dy
 
@@ -58,7 +47,7 @@ for file_name in ["input.txt", "sample1.txt", "sample2.txt"]:
         head = Point(0, 0)
         tail = knots[-1]
 
-        seen = [tail.pos()]
+        seen = {tail.pos()}
 
         for line in lines:
             d, l = line.strip().split()
@@ -68,9 +57,8 @@ for file_name in ["input.txt", "sample1.txt", "sample2.txt"]:
                 for i in range(len(knots)):
                     prev = head if i == 0 else knots[i - 1]
                     knots[i].update_pos(tail_move(prev, knots[i]))
-
-                if tail.pos() not in seen:
-                    seen.append(tail.pos())
+                
+                seen.add(tail.pos())
         
         parts.append(len(seen))
 
