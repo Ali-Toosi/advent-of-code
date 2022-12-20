@@ -90,8 +90,6 @@ for file_name in ["input.txt", "sample1.txt"]:
 
     for i, line in enumerate(lines):
         print("Line", i)
-        if i < 2:
-            continue
         if i > 2:
             break
         qualities.append(get_blueprint_quality(line))
