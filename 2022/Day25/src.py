@@ -5,14 +5,6 @@ def read_input(file_name):
     return input_lines
 
 
-def base5(x):
-    res = ""
-    while x:
-        res = str(x % 5) + res
-        x //= 5
-    return res
-
-
 def snafu_add(a, b):
     signs = ["=", "-", "0", "1", "2"]
     res = ""
@@ -49,11 +41,8 @@ for file_name in ["input.txt", "sample1.txt"]:
     lines = read_input(file_name)
     
     p1_ans = snafu_sum(lines)
-    p2_ans = 0
 
     print("=================")
     print("-> Input", file_name)
     print("Part 1:")
     print(p1_ans)
-    print("Part 2:")
-    print(p2_ans)
