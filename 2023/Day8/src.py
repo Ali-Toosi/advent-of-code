@@ -1,26 +1,5 @@
 from math import gcd
 
-def solve1(lines):
-    p1 = p2 = 0
-
-    grid = {}
-
-    cmds = lines[0].strip()
-    for line in lines[2:]:
-        src, rest = line.split(" = ")
-        left, rest = rest.split(",")
-        left = left[1:]
-        right = rest.strip()[:-1]
-        grid[src] = (left, right)
-
-    current = "AAA"
-    while current != "ZZZ":
-        cmd = 0 if cmds[p1 % len(cmds)] == "L" else 1
-        current = grid[current][cmd]
-        p1 += 1
-
-    return p1
-
 
 def lcm(l):
     ans = 1
@@ -29,11 +8,21 @@ def lcm(l):
     return ans
 
 
-def solve2(lines):
-    grid = {}
+def needed_steps(start, cmds, grid, condition):
+    steps = 0
+    current = start
+    while not condition(current):
+        cmd = 0 if cmds[steps % len(cmds)] == "L" else 1
+        current = grid[current][cmd]
+        steps += 1
+    return steps
 
+
+def solve(lines):
+    grid = {}
     cmds = lines[0].strip()
-    starts = []
+    all_starts = []
+
     for line in lines[2:]:
         src, rest = line.split(" = ")
         left, rest = rest.split(",")
@@ -41,19 +30,15 @@ def solve2(lines):
         right = rest.strip()[:-1]
         grid[src] = (left, right)
         if src[-1] == "A":
-            starts.append(src)
+            all_starts.append(src)
 
-    per_src = []
-    for start in starts:
-        steps = 0
-        current = start
-        while current[-1] != "Z":
-            cmd = 0 if cmds[steps % len(cmds)] == "L" else 1
-            current = grid[current][cmd]
-            steps += 1
-        per_src.append(steps)
-
-    return lcm(per_src)
+    return (
+        needed_steps("AAA", cmds, grid, lambda x: x == "ZZZ"),  # Part 1
+        lcm([
+            needed_steps(start, cmds, grid, lambda x: x[-1] == "Z")
+            for start in all_starts
+        ])                                                           # Part 2
+    )
 
 
 def read_input(file_name):
@@ -70,6 +55,5 @@ if __name__ == "__main__":
         except FileNotFoundError:
             continue
         print("-> " + file_name)
-        print(solve1(lines))
-        print(solve2(lines))
+        print(solve(lines))
 
