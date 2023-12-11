@@ -34,13 +34,9 @@ def count_line(line: str):
     for i in range(len(line)):
         if line[i] == "." and b:
             cnt += 1
-            # print("I", end="")
-        # else:
-            # print(line[i], end="")
         if line[i] == "&":
             b = not b
 
-    # print()
     return cnt
 
 
@@ -61,13 +57,9 @@ def solve(grid):
             cells = y
             break
 
-    print("S is", grid[r][c])
-
     for r, c in cells:
         if grid[r][c] in ["|", "F", "7"]:
             grid[r] = grid[r][:c] + "&" + grid[r][c + 1:]
-        # elif grid[r][c] == "-":
-        #     grid[r] = grid[r][:c] + "$" + grid[r][c + 1:]
         else:
             grid[r] = grid[r][:c] + "*" + grid[r][c + 1:]
 
@@ -76,9 +68,7 @@ def solve(grid):
         for pipe in ["F", "J", "L", "|", "-", "7"]:
             line = line.replace(pipe, ".")
         new_grid.append(line)
-        # print(line)
 
-    # print("-----------------------")
     p2 = sum([count_line(line) for line in new_grid])
     return p1, p2
 
