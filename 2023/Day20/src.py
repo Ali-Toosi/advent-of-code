@@ -99,7 +99,8 @@ def solve(lines, file):
     if file != "input.txt":
         p2 = 0
     else:
-        look_for = {x: [] for x in modules["sq"].recv.keys()}
+        rx_root = list(filter(lambda x: "rx" in x, lines))[0].split(" -> ")[0][1:]
+        look_for = {x: [] for x in modules[rx_root].recv.keys()}
         for btn in range(10000):
             _, _, gave_high = propagate(start, modules, tuple(look_for.keys()))
             for l in look_for:
